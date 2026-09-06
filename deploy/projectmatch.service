@@ -1,0 +1,23 @@
+[Unit]
+Description=ProjectMatch AI backend
+After=network.target mysqld.service
+Wants=mysqld.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/projectmatch
+Environment=SPRING_PROFILES_ACTIVE=prod
+Environment=SERVER_PORT=18080
+Environment=SERVER_ADDRESS=127.0.0.1
+Environment=MYSQL_HOST=127.0.0.1
+Environment=MYSQL_PORT=3306
+Environment=MYSQL_DB=projectmatch
+Environment=MYSQL_USER=root
+Environment=MYSQL_PASSWORD=Aa123456
+ExecStart=/usr/bin/java -Xms256m -Xmx512m -jar /opt/projectmatch/projectmatch-server-1.0.0.jar
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

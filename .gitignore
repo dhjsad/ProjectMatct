@@ -1,0 +1,14 @@
+backend/target/
+backend/data/
+backend/.idea/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-upload.tgz
+.idea/
+*.iml
+.DS_Store
+*.log
+.env
+.env.local
+*.tgz
+**/uploads/

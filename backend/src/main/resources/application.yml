@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: projectmatch
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  rabbitmq:
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:118.31.12.48}:${MYSQL_PORT:3306}/${MYSQL_DB:projectmatch}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&createDatabaseIfNotExist=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:Aa123456}
+  servlet:
+    multipart:
+      max-file-size: 80MB
+      max-request-size: 80MB
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      encoding: UTF-8
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+
+jwt:
+  secret: ProjectMatchAiWorkshopSecretKey2026MustBeLongEnoughForHS256
+  expire-hours: 72
+
+ai:
+  enabled: ${AI_ENABLED:false}
+  base-url: ${AI_BASE_URL:https://api.openai.com/v1}
+  api-key: ${AI_API_KEY:}
+  model: ${AI_MODEL:gpt-4o-mini}
+
+recommend:
+  mq:
+    enabled: ${RECOMMEND_MQ_ENABLED:false}
+  min-score: 68
+  top-n: 8
+
+file:
+  upload-dir: ${FILE_UPLOAD_DIR:./data/uploads}
