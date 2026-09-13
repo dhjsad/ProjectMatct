@@ -2,6 +2,8 @@ package com.projectmatch.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.projectmatch.common.ApiResult;
+import com.projectmatch.dto.CheckoutRequest;
+import com.projectmatch.dto.PurchaseRequest;
 import com.projectmatch.entity.Project;
 import com.projectmatch.entity.ProjectClaim;
 import com.projectmatch.security.SecurityUtils;
@@ -9,11 +11,11 @@ import com.projectmatch.service.ProjectService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +52,21 @@ public class ProjectController {
     @PostMapping("/{id}/claim")
     public ApiResult<String> claim(@PathVariable Long id) {
         projectService.claim(id, SecurityUtils.currentUserId());
-        return ApiResult.ok("领取成功", "ok");
+        return ApiResult.ok("购买成功", "ok");
+    }
+
+    @PostMapping("/{id}/purchase")
+    public ApiResult<ProjectClaim> purchase(@PathVariable Long id, @RequestBody(required = false) PurchaseRequest request) {
+        if (request == null) {
+            request = new PurchaseRequest();
+        }
+        request.setProjectId(id);
+        return ApiResult.ok(projectService.purchase(id, SecurityUtils.currentUserId(), request));
+    }
+
+    @PostMapping("/checkout")
+    public ApiResult<List<ProjectClaim>> checkout(@RequestBody CheckoutRequest request) {
+        return ApiResult.ok(projectService.checkout(SecurityUtils.currentUserId(),
+                request == null ? null : request.getItems()));
     }
 }

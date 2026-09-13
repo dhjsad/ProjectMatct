@@ -8,15 +8,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("project_claim")
-public class ProjectClaim {
+@TableName("custom_order")
+public class CustomOrder {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long userId;
-    private Long projectId;
-    private String deliveryType;
+    private String contactName;
     private String contact;
-    private Integer amount;
-    private Integer guideAmount;
-    private LocalDateTime claimTime;
+    private String company;
+    private String title;
+    private String requirement;
+    private String budget;
+    private String status;
+    private LocalDateTime createTime;
 }

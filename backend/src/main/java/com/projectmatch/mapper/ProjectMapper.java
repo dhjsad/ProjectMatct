@@ -10,4 +10,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
 
     @Update("UPDATE project SET remaining_count = remaining_count - 1 WHERE id = #{projectId} AND remaining_count > 0")
     int decreaseRemaining(Long projectId);
+
+    @Update("UPDATE project SET remaining_count = 0 WHERE id = #{projectId} AND remaining_count > 0")
+    int markSold(Long projectId);
 }

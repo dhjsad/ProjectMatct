@@ -28,7 +28,9 @@ public class Project {
     private String sampleCode;
     private String tutorial;
     private Integer remainingCount;
+    private Integer salePrice;
     private Integer deployPrice;
+    private Integer guidePrice;
     private Integer deployServiceEnabled;
     private String status;
     private LocalDateTime createTime;

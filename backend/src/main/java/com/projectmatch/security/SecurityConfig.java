@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers("/api/auth/login", "/api/auth/register", "/api/presence/heartbeat").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/projects", "/api/projects/*", "/api/projects/*/download/tutorial", "/api/articles/**", "/api/meta/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/projects", "/api/projects/*", "/api/projects/*/download/tutorial", "/api/articles/**", "/api/meta/**", "/api/site/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/ai/analyze", "/api/ai/match").permitAll()
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

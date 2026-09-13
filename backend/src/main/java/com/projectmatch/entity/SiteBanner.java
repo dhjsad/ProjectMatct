@@ -8,15 +8,16 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("project_claim")
-public class ProjectClaim {
+@TableName("site_banner")
+public class SiteBanner {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long userId;
-    private Long projectId;
-    private String deliveryType;
-    private String contact;
-    private Integer amount;
-    private Integer guideAmount;
-    private LocalDateTime claimTime;
+    private String slotKey;
+    private String content;
+    private String fontFamily;
+    private String fontSize;
+    private String color;
+    private String bgColor;
+    private Integer enabledFlag;
+    private LocalDateTime updateTime;
 }

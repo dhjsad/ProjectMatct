@@ -1,8 +1,8 @@
 <template>
   <div class="page-wrap">
     <AdminNav />
-    <h1 class="font-serif text-2xl">远程部署订单</h1>
-    <el-table :data="rows" class="mt-6" stripe>
+    <h1 class="text-[32px] font-semibold tracking-tight">远程部署订单</h1>
+    <el-table :data="rows" class="mt-6 table-shell">
       <el-table-column prop="id" label="ID" width="70" />
       <el-table-column prop="userId" label="用户" width="80" />
       <el-table-column prop="projectId" label="项目" width="80" />

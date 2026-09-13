@@ -1,8 +1,8 @@
 <template>
   <div class="page-wrap">
     <AdminNav />
-    <h1 class="font-serif text-2xl">用户与画像</h1>
-    <el-table :data="users" class="mt-6" stripe>
+    <h1 class="text-[32px] font-semibold tracking-tight">用户与画像</h1>
+    <el-table :data="users" class="mt-6 table-shell">
       <el-table-column prop="id" label="ID" width="70" />
       <el-table-column prop="username" label="用户名" />
       <el-table-column prop="email" label="邮箱" />

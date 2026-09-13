@@ -1,9 +1,9 @@
 <template>
   <div v-if="article" class="page-wrap max-w-3xl">
-    <router-link to="/articles" class="text-sm text-ink/50">返回文章</router-link>
-    <h1 class="font-serif text-3xl mt-3">{{ article.title }}</h1>
-    <p class="mt-2 text-sm text-ink/50">{{ article.keywords }}</p>
-    <article class="card p-6 mt-6 whitespace-pre-wrap leading-8">{{ article.content }}</article>
+    <router-link to="/articles" class="link-more !text-[13px]">返回文章 ›</router-link>
+    <p class="mt-8 text-[13px] text-mute">{{ article.keywords }}</p>
+    <h1 class="page-title mt-3">{{ article.title }}</h1>
+    <article class="mt-10 text-[19px] leading-9 whitespace-pre-wrap text-ink">{{ article.content }}</article>
   </div>
 </template>
 

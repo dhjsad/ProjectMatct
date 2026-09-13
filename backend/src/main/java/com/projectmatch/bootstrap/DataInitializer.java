@@ -278,7 +278,9 @@ public class DataInitializer implements CommandLineRunner {
         p.setSampleCode(sample);
         p.setTutorial(tutorial);
         p.setRemainingCount(remaining);
+        p.setSalePrice(399);
         p.setDeployPrice(199);
+        p.setGuidePrice(299);
         p.setDeployServiceEnabled(1);
         p.setStatus("PUBLISHED");
         p.setCreateTime(LocalDateTime.now());

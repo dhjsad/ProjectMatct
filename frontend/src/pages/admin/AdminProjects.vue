@@ -2,15 +2,19 @@
   <div class="page-wrap">
     <AdminNav />
     <div class="flex items-center justify-between">
-      <h1 class="font-serif text-2xl">项目管理</h1>
-      <el-button type="primary" color="#1c1915" @click="open()">新增项目</el-button>
+      <h1 class="text-[32px] font-semibold tracking-tight">项目管理</h1>
+      <el-button type="primary" color="#0071e3" @click="open()">新增项目</el-button>
     </div>
-    <el-table :data="page.records" class="mt-6" stripe>
+    <el-table :data="page.records" class="mt-6 table-shell">
       <el-table-column prop="id" label="ID" width="70" />
       <el-table-column prop="name" label="名称" />
       <el-table-column prop="category" label="分类" width="100" />
       <el-table-column prop="difficulty" label="难度" width="90" />
-      <el-table-column prop="remainingCount" label="名额" width="80" />
+      <el-table-column prop="salePrice" label="售价" width="80" />
+      <el-table-column prop="guidePrice" label="指导价" width="90" />
+      <el-table-column label="售卖" width="90">
+        <template #default="{ row }">{{ row.remainingCount > 0 ? '在售' : '已售出' }}</template>
+      </el-table-column>
       <el-table-column prop="status" label="状态" width="110" />
       <el-table-column label="操作" width="280">
         <template #default="{ row }">
@@ -35,7 +39,9 @@
           <el-form-item label="技术栈"><el-input v-model="form.techStack" /></el-form-item>
           <el-form-item label="难度 easy/medium/hard"><el-input v-model="form.difficulty" /></el-form-item>
           <el-form-item label="周期（天）"><el-input-number v-model="form.estimatedDuration" :min="7" /></el-form-item>
-          <el-form-item label="领取名额"><el-input-number v-model="form.remainingCount" :min="0" /></el-form-item>
+          <el-form-item label="是否在售（1 在售 / 0 已售）"><el-input-number v-model="form.remainingCount" :min="0" :max="1" /></el-form-item>
+          <el-form-item label="售价（元）"><el-input-number v-model="form.salePrice" :min="0" /></el-form-item>
+          <el-form-item label="技术指导价（元）"><el-input-number v-model="form.guidePrice" :min="0" /></el-form-item>
           <el-form-item label="远程部署价格（元）"><el-input-number v-model="form.deployPrice" :min="0" /></el-form-item>
           <el-form-item label="开放远程部署">
             <el-select v-model="form.deployServiceEnabled" class="w-full">
@@ -106,7 +112,7 @@ const form = reactive(empty())
 function empty() {
   return {
     id: null, name: '', description: '', projectType: '毕业设计', category: 'Java', techStack: '',
-    difficulty: 'medium', estimatedDuration: 30, remainingCount: 1, deployPrice: 199, deployServiceEnabled: 1,
+    difficulty: 'medium', estimatedDuration: 30, remainingCount: 1, salePrice: 399, guidePrice: 299, deployPrice: 199, deployServiceEnabled: 1,
     suitableFor: '', modules: '',
     architecture: '', dbDesign: '', deployGuide: '', sampleCode: '', tutorial: '', status: 'PUBLISHED'
   }

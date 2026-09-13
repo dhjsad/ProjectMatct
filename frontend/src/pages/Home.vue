@@ -1,83 +1,57 @@
 <template>
-  <div class="page-wrap">
-    <section class="grid lg:grid-cols-12 gap-10 items-start">
-      <div class="lg:col-span-7">
-        <p class="text-copper tracking-widest text-xs mb-3">AI 驱动的计算机项目推荐</p>
-        <h1 class="font-serif text-4xl md:text-5xl leading-tight">
-          先看你会什么、<br />再决定做什么项目。
-        </h1>
-        <p class="mt-5 text-ink/75 leading-7 max-w-xl">
-          把技术栈、难度、周期和兴趣说清楚。Agent 会分析能力画像、给项目打分，并解释为什么推荐——而不是丢给你一份无法判断的源码列表。
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <router-link to="/match" class="px-5 py-2.5 rounded-full bg-copper text-white">开始 AI 匹配</router-link>
-          <router-link to="/projects" class="px-5 py-2.5 rounded-full border border-ink/20">浏览项目库</router-link>
+  <div>
+    <section class="hero-stage">
+      <p class="eyebrow fade-up">Store</p>
+      <h1 class="fade-up" style="animation-delay: 80ms">
+        只卖一次。<br />你的，就是唯一。
+      </h1>
+      <p class="lede fade-up" style="animation-delay: 160ms">
+        每件作品全球仅售一份。买下即可自行下载，或由客服发送并附带付费技术指导。
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-5 fade-up" style="animation-delay: 240ms">
+        <router-link to="/projects" class="btn-primary">浏览商城</router-link>
+        <router-link to="/custom" class="link-more">高端定制 ›</router-link>
+      </div>
+    </section>
+
+    <section class="page-wrap !pt-20 !pb-8">
+      <p class="eyebrow">为什么选我们</p>
+      <h2 class="section-title">把作品当作商品，而不是复制品。</h2>
+      <div class="mt-10 grid md:grid-cols-3 gap-5">
+        <article v-for="item in values" :key="item.title" class="card p-8">
+          <p class="text-[12px] tracking-[0.16em] text-mute uppercase">{{ item.step }}</p>
+          <h3 class="mt-4 text-[28px] font-semibold tracking-tight leading-tight">{{ item.title }}</h3>
+          <p class="mt-3 text-[15px] leading-7 text-mute">{{ item.desc }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section v-if="featured.length" class="page-wrap !pt-10 !pb-20">
+      <div class="flex items-end justify-between gap-4 mb-8">
+        <div>
+          <p class="eyebrow">商店</p>
+          <h2 class="section-title">精选作品</h2>
         </div>
-        <p class="mt-6 text-xs text-ink/55 max-w-xl">
-          平台定位为学习与二次开发辅助。鼓励理解代码、自行实现，不鼓励把他人作品直接作为毕业设计提交。
-        </p>
+        <router-link to="/projects" class="link-more shrink-0">全部商品 ›</router-link>
       </div>
-      <aside class="lg:col-span-5 card p-6">
-        <p class="text-sm text-ink/60 mb-3">典型提问</p>
-        <ul class="space-y-3 text-sm">
-          <li v-for="q in samples" :key="q" class="border-b border-black/5 pb-3 last:border-0">
-            “{{ q }}”
-          </li>
-        </ul>
-      </aside>
-    </section>
-
-    <section class="mt-16 grid md:grid-cols-3 gap-4">
-      <div v-for="item in values" :key="item.title" class="card p-5">
-        <h3 class="font-serif text-lg">{{ item.title }}</h3>
-        <p class="mt-2 text-sm text-ink/70 leading-6">{{ item.desc }}</p>
-      </div>
-    </section>
-
-    <section v-if="inbox.recommendations.length" class="mt-16">
-      <div class="flex items-end justify-between mb-4">
-        <h2 class="font-serif text-2xl">发现可能适合你的项目</h2>
-        <router-link to="/me" class="text-sm text-copper">全部推送</router-link>
-      </div>
-      <div class="grid md:grid-cols-2 gap-4">
-        <router-link
-          v-for="item in inbox.recommendations.slice(0, 4)"
-          :key="item.id"
-          :to="`/projects/${item.projectId}`"
-          class="card p-5"
-        >
-          <div class="flex justify-between gap-3">
-            <h3 class="font-medium">{{ item.projectName }}</h3>
-            <span class="text-xs text-copper shrink-0">匹配度 {{ item.matchScore }}%</span>
-          </div>
-          <p class="mt-2 text-sm text-ink/70 line-clamp-2">{{ item.description }}</p>
-          <ul class="mt-3 text-xs text-moss space-y-1">
-            <li v-for="reason in (item.reasons || []).slice(0, 2)" :key="reason">✓ {{ reason }}</li>
-          </ul>
-        </router-link>
-      </div>
-    </section>
-
-    <section class="mt-16">
-      <div class="flex items-end justify-between mb-4">
-        <h2 class="font-serif text-2xl">项目库一览</h2>
-        <router-link to="/projects" class="text-sm text-copper">全部项目</router-link>
-      </div>
-      <div class="grid md:grid-cols-2 gap-4">
+      <div class="grid md:grid-cols-2 gap-5">
         <router-link
           v-for="p in featured"
           :key="p.id"
           :to="`/projects/${p.id}`"
-          class="card p-5 hover:border-copper/40"
+          class="card card-hover overflow-hidden"
         >
-          <div class="flex justify-between gap-3">
-            <h3 class="font-medium">{{ p.name }}</h3>
-            <span class="text-xs shrink-0" :class="p.remainingCount > 0 ? 'text-moss' : 'text-ink/40'">
-              {{ p.remainingCount > 0 ? `可领取 · 余 ${p.remainingCount}` : '已领完' }}
-            </span>
+          <div class="tile-visual" :class="tileClass(p.id)"></div>
+          <div class="p-6">
+            <div class="flex justify-between gap-3 items-start">
+              <h3 class="text-[21px] font-semibold tracking-tight">{{ p.name }}</h3>
+              <span class="chip shrink-0" :class="sold(p) ? 'chip-off' : 'chip-ok'">
+                {{ sold(p) ? '已售出' : '可购买' }}
+              </span>
+            </div>
+            <p class="mt-3 text-[15px] text-mute line-clamp-2 leading-6">{{ p.description }}</p>
+            <p class="mt-4 text-[17px] font-semibold tracking-tight">{{ money(p.salePrice) }}</p>
           </div>
-          <p class="mt-2 text-sm text-ink/70 line-clamp-2">{{ p.description }}</p>
-          <p class="mt-3 text-xs text-ink/50">{{ p.techStack }} · 约 {{ p.estimatedDuration }} 天</p>
         </router-link>
       </div>
     </section>
@@ -87,24 +61,25 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import http from '../api'
-import { useInboxStore } from '../inbox'
+import { money, sold } from '../labels'
 
 const featured = ref([])
-const inbox = useInboxStore()
-const samples = [
-  '我会 Java，但不知道做什么毕业设计。',
-  '只会 Spring Boot CRUD，可以完成什么项目？',
-  'Vue 一般，还有两个月，现在开始做什么合适？'
-]
 const values = [
-  { title: '理解能力', desc: '从自然语言里抽出语言、框架、难度和周期，形成技术画像。' },
-  { title: '匹配打分', desc: '按技术栈、难度、类型、兴趣、周期加权，给出 Top 3～5 与分项分数。' },
-  { title: '解释原因', desc: '说明为什么适合、哪里不适合，并公开架构与教程，领取名额单独限量。' }
+  { step: '01', title: '独一无二', desc: '每件作品只售一次。有人买下，立刻显示已售出，不再重复售卖。' },
+  { step: '02', title: '即时发货', desc: '购买后可自行下载源码，或选择客服发送，并叠加付费技术指导。' },
+  { step: '03', title: '商业定制', desc: '需要完整商业项目时，走高端定制：顾问沟通、报价、独立交付。' }
 ]
 
+function tileClass(id) {
+  return ['tile-a', 'tile-b', 'tile-c', 'tile-d'][(Number(id) || 0) % 4]
+}
+
 onMounted(async () => {
-  const res = await http.get('/projects', { params: { size: 4 } })
-  featured.value = res.data?.records || []
-  inbox.refresh().catch(() => {})
+  try {
+    const res = await http.get('/projects', { params: { size: 6 }, skipErrorMessage: true })
+    featured.value = res.data?.records || []
+  } catch {
+    featured.value = []
+  }
 })
 </script>

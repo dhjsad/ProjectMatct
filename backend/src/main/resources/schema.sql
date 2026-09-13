@@ -37,7 +37,9 @@ CREATE TABLE IF NOT EXISTS project (
     sample_code LONGTEXT,
     tutorial LONGTEXT,
     remaining_count INT DEFAULT 1,
+    sale_price INT DEFAULT 399,
     deploy_price INT DEFAULT 199,
+    guide_price INT DEFAULT 299,
     deploy_service_enabled INT DEFAULT 1,
     status VARCHAR(32) DEFAULT 'PUBLISHED',
     create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -59,6 +61,10 @@ CREATE TABLE IF NOT EXISTS project_claim (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     project_id BIGINT NOT NULL,
+    delivery_type VARCHAR(32) DEFAULT 'SELF_DOWNLOAD',
+    contact VARCHAR(128),
+    amount INT DEFAULT 0,
+    guide_amount INT DEFAULT 0,
     claim_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -118,4 +124,29 @@ CREATE TABLE IF NOT EXISTS site_visit (
     first_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uk_visitor_date (visitor_id, visit_date)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS site_banner (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    slot_key VARCHAR(32) NOT NULL UNIQUE,
+    content VARCHAR(512),
+    font_family VARCHAR(128),
+    font_size VARCHAR(32),
+    color VARCHAR(32),
+    bg_color VARCHAR(32),
+    enabled_flag INT DEFAULT 1,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS custom_order (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    contact_name VARCHAR(64),
+    contact VARCHAR(128) NOT NULL,
+    company VARCHAR(128),
+    title VARCHAR(256),
+    requirement LONGTEXT,
+    budget VARCHAR(64),
+    status VARCHAR(32) DEFAULT 'PENDING',
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

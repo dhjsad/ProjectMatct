@@ -14,13 +14,18 @@ import com.projectmatch.mapper.UserProfileMapper;
 import com.projectmatch.entity.DeployOrder;
 import com.projectmatch.entity.ProjectResource;
 import com.projectmatch.dto.AdminResetPasswordRequest;
+import com.projectmatch.dto.SiteBannerSaveRequest;
+import com.projectmatch.entity.CustomOrder;
+import com.projectmatch.entity.SiteBanner;
 import com.projectmatch.service.AuthService;
+import com.projectmatch.service.CustomOrderService;
 import com.projectmatch.service.DeployOrderService;
 import com.projectmatch.service.PresenceService;
 import com.projectmatch.service.ProjectService;
 import com.projectmatch.service.ProactiveMatchService;
 import com.projectmatch.service.RecommendationQueryService;
 import com.projectmatch.service.ResourceAdminService;
+import com.projectmatch.service.SiteBannerService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +57,8 @@ public class AdminController {
     private final DeployOrderService deployOrderService;
     private final PresenceService presenceService;
     private final AuthService authService;
+    private final SiteBannerService siteBannerService;
+    private final CustomOrderService customOrderService;
 
     public AdminController(ProjectService projectService, SysUserMapper userMapper,
                            UserProfileMapper profileMapper, ProjectClaimMapper claimMapper,
@@ -60,7 +67,9 @@ public class AdminController {
                            ResourceAdminService resourceAdminService,
                            DeployOrderService deployOrderService,
                            PresenceService presenceService,
-                           AuthService authService) {
+                           AuthService authService,
+                           SiteBannerService siteBannerService,
+                           CustomOrderService customOrderService) {
         this.projectService = projectService;
         this.userMapper = userMapper;
         this.profileMapper = profileMapper;
@@ -71,6 +80,8 @@ public class AdminController {
         this.deployOrderService = deployOrderService;
         this.presenceService = presenceService;
         this.authService = authService;
+        this.siteBannerService = siteBannerService;
+        this.customOrderService = customOrderService;
     }
 
     @GetMapping("/projects")
@@ -175,5 +186,25 @@ public class AdminController {
     @GetMapping("/online")
     public ApiResult<Map<String, Object>> online() {
         return ApiResult.ok(presenceService.stats());
+    }
+
+    @GetMapping("/banners")
+    public ApiResult<List<SiteBanner>> banners() {
+        return ApiResult.ok(siteBannerService.all());
+    }
+
+    @PutMapping("/banners")
+    public ApiResult<SiteBanner> saveBanner(@RequestBody SiteBannerSaveRequest request) {
+        return ApiResult.ok(siteBannerService.save(request));
+    }
+
+    @GetMapping("/custom-orders")
+    public ApiResult<List<CustomOrder>> customOrders() {
+        return ApiResult.ok(customOrderService.all());
+    }
+
+    @PostMapping("/custom-orders/{id}/status")
+    public ApiResult<CustomOrder> customStatus(@PathVariable Long id, @RequestParam String status) {
+        return ApiResult.ok(customOrderService.updateStatus(id, status));
     }
 }
